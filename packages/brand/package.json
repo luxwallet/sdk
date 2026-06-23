@@ -1,11 +1,12 @@
 {
-  "name": "@luxwallet/rpc",
+  "name": "@luxwallet/brand",
   "version": "0.1.0",
-  "description": "Lux Wallet gateway RPC client — resolves https://<gateway>/v1/rpc/<chainId>.",
+  "description": "Runtime white-label brand config for the Lux Wallet stack — the ONE source of brand truth. MIT, zero deps.",
   "license": "MIT",
   "type": "module",
   "files": [
-    "dist"
+    "dist",
+    "brand.schema.json"
   ],
   "main": "./dist/index.js",
   "module": "./dist/index.js",
@@ -16,17 +17,17 @@
       "react-native": "./dist/index.js",
       "browser": "./dist/index.js",
       "default": "./dist/index.js"
-    }
+    },
+    "./brand.schema.json": "./brand.schema.json"
   },
   "scripts": {
     "build": "tsc --build",
     "typecheck": "tsc --build",
-    "test": "vitest run"
-  },
-  "dependencies": {
-    "@luxwallet/chains": "workspace:*"
+    "test": "vitest run",
+    "emit": "tsx scripts/emit-schema.ts"
   },
   "devDependencies": {
+    "tsx": "^4.19.2",
     "typescript": "^5.7.3",
     "vitest": "^3.0.5"
   }

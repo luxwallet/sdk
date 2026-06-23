@@ -1,7 +1,7 @@
 {
   "name": "@luxwallet/sdk",
-  "version": "0.0.0",
-  "description": "Unified Lux Wallet SDK — umbrella re-exporting chains, rpc, crypto, keyring, tx (+ connect).",
+  "version": "0.1.0",
+  "description": "Unified Lux Wallet SDK — umbrella re-exporting brand, chains, rpc, crypto, keyring, tx (+ connect).",
   "license": "MIT",
   "type": "module",
   "files": [
@@ -16,6 +16,10 @@
       "react-native": "./dist/index.js",
       "browser": "./dist/index.js",
       "default": "./dist/index.js"
+    },
+    "./brand": {
+      "types": "./dist/brand.d.ts",
+      "default": "./dist/brand.js"
     },
     "./chains": {
       "types": "./dist/chains.d.ts",
@@ -44,6 +48,7 @@
     "test": "vitest run"
   },
   "dependencies": {
+    "@luxwallet/brand": "workspace:*",
     "@luxwallet/chains": "workspace:*",
     "@luxwallet/crypto": "workspace:*",
     "@luxwallet/keyring": "workspace:*",

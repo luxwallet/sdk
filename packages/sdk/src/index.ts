@@ -7,9 +7,10 @@
  * (`@luxwallet/sdk/chains`) or the standalone package (`@luxwallet/chains`)
  * when you want tree-shaking down to one module.
  *
- *   import { chains, rpc, crypto, keyring, tx } from "@luxwallet/sdk";
+ *   import { brand, chains, rpc, crypto, keyring, tx } from "@luxwallet/sdk";
  *   chains.getChain(96369);
  *   const url = rpc.getRpcUrl(96369);
+ *   const accent = brand.getBrand().theme.accent1;
  *
  * CONNECT / SIWx is a SEPARATE module: `@luxwallet/connect` (npm) /
  * `github.com/luxwallet/connect/go`. It is an OPTIONAL peer dependency of
@@ -20,6 +21,7 @@
  * It is intentionally NOT re-exported here: connect ships its own release
  * cadence and we do not duplicate or vendor it.
  */
+export * as brand from "@luxwallet/brand";
 export * as chains from "@luxwallet/chains";
 export * as rpc from "@luxwallet/rpc";
 export * as crypto from "@luxwallet/crypto";
