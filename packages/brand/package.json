@@ -24,9 +24,11 @@
     "build": "tsc --build",
     "typecheck": "tsc --build",
     "test": "vitest run",
-    "emit": "tsx scripts/emit-schema.ts"
+    "emit": "tsx scripts/emit-schema.ts",
+    "emit:brand": "tsx scripts/emit-brand.ts"
   },
   "devDependencies": {
+    "@luxwallet/chains": "workspace:*",
     "tsx": "^4.19.2",
     "typescript": "^5.7.3",
     "vitest": "^3.0.5"
