@@ -1,5 +1,5 @@
 import { describe, expect, it } from "vitest";
-import { DEFAULT_GATEWAY, RpcClient, getRpcUrl } from "./index.js";
+import { DEFAULT_GATEWAY, RpcClient, getRpcUrl, rpcConfigFromBrand } from "./index.js";
 
 describe("@luxwallet/rpc getRpcUrl", () => {
   it("builds https://<default gateway>/v1/rpc/<chainId> by EIP-155 id", () => {
@@ -48,5 +48,20 @@ describe("@luxwallet/rpc RpcClient", () => {
   it("binds to the resolved gateway URL", () => {
     const c = new RpcClient(96369);
     expect(c.url).toBe(`https://${DEFAULT_GATEWAY}/v1/rpc/96369`);
+  });
+});
+
+describe("@luxwallet/rpc rpcConfigFromBrand", () => {
+  it("derives the gateway from a brand's gateway.rpcBaseUrl", () => {
+    const brand = { gateway: { rpcBaseUrl: "https://api.lux.network" } };
+    expect(getRpcUrl(96369, rpcConfigFromBrand(brand))).toBe(
+      "https://api.lux.network/v1/rpc/96369",
+    );
+  });
+
+  it("passes per-chain overrides through", () => {
+    const brand = { gateway: { rpcBaseUrl: "https://api.acme.example" } };
+    const cfg = rpcConfigFromBrand(brand, { 96369: "https://private/rpc" });
+    expect(getRpcUrl(96369, cfg)).toBe("https://private/rpc");
   });
 });

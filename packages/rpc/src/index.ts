@@ -5,8 +5,11 @@
  *
  *   https://<gateway>/v1/rpc/<route>
  *
- * Default gateway is `api.hanzo.ai`. White-label brands override the host
- * (lux → api.lux.network, etc.) and may pin a per-chain RPC override.
+ * The gateway host is INJECTABLE. There is a default (`api.hanzo.ai`) so the
+ * client works with zero config, but white-label brands override it — pass
+ * `config.gateway` directly, or bridge a brand with `rpcConfigFromBrand(brand)`
+ * which reads `BrandConfig.gateway.rpcBaseUrl` (lux → api.lux.network, etc.).
+ * Brands may also pin a per-chain RPC override.
  * Mirrors `getBootnodeRpcUrl` from lux/wallet apps/web wagmi config:
  *  - per-chain override wins;
  *  - else `https://<gateway>/v1/rpc/<route>`;
@@ -37,6 +40,28 @@ export interface RpcConfig {
 /** Normalize a gateway host: strip scheme and any trailing slash. */
 function normalizeGateway(gateway: string): string {
   return gateway.replace(/^https?:\/\//, "").replace(/\/+$/, "");
+}
+
+/**
+ * Structural shape of the part of a brand this package needs. Declared here
+ * (not imported from @luxwallet/brand) so rpc stays a leaf with no brand
+ * dependency — any object with this shape works, including a full BrandConfig.
+ */
+export interface BrandGatewayLike {
+  gateway: { rpcBaseUrl: string };
+}
+
+/**
+ * Build an RpcConfig from a brand. This is the ONE way a white-label brand's
+ * gateway flows into RPC resolution: pass `rpcConfigFromBrand(getBrand())`
+ * (or any object exposing `gateway.rpcBaseUrl`). `overrides` are merged
+ * through unchanged for per-chain private endpoints.
+ */
+export function rpcConfigFromBrand(
+  brand: BrandGatewayLike,
+  overrides?: RpcConfig["overrides"],
+): RpcConfig {
+  return { gateway: brand.gateway.rpcBaseUrl, ...(overrides ? { overrides } : {}) };
 }
 
 /**
