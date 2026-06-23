@@ -1,0 +1,57 @@
+{
+  "name": "@luxwallet/sdk",
+  "version": "0.0.0",
+  "description": "Unified Lux Wallet SDK — umbrella re-exporting chains, rpc, crypto, keyring, tx (+ connect).",
+  "license": "MIT",
+  "type": "module",
+  "files": [
+    "dist"
+  ],
+  "main": "./dist/index.js",
+  "module": "./dist/index.js",
+  "types": "./dist/index.d.ts",
+  "exports": {
+    ".": {
+      "types": "./dist/index.d.ts",
+      "react-native": "./dist/index.js",
+      "browser": "./dist/index.js",
+      "default": "./dist/index.js"
+    },
+    "./chains": {
+      "types": "./dist/chains.d.ts",
+      "default": "./dist/chains.js"
+    },
+    "./rpc": {
+      "types": "./dist/rpc.d.ts",
+      "default": "./dist/rpc.js"
+    },
+    "./crypto": {
+      "types": "./dist/crypto.d.ts",
+      "default": "./dist/crypto.js"
+    },
+    "./keyring": {
+      "types": "./dist/keyring.d.ts",
+      "default": "./dist/keyring.js"
+    },
+    "./tx": {
+      "types": "./dist/tx.d.ts",
+      "default": "./dist/tx.js"
+    }
+  },
+  "scripts": {
+    "build": "tsc --build",
+    "typecheck": "tsc --build",
+    "test": "vitest run"
+  },
+  "dependencies": {
+    "@luxwallet/chains": "workspace:*",
+    "@luxwallet/crypto": "workspace:*",
+    "@luxwallet/keyring": "workspace:*",
+    "@luxwallet/rpc": "workspace:*",
+    "@luxwallet/tx": "workspace:*"
+  },
+  "devDependencies": {
+    "typescript": "^5.7.3",
+    "vitest": "^3.0.5"
+  }
+}

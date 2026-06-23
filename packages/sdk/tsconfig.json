@@ -1,0 +1,16 @@
+{
+  "extends": "../../tsconfig.base.json",
+  "compilerOptions": {
+    "outDir": "./dist",
+    "rootDir": "./src"
+  },
+  "include": ["src"],
+  "exclude": ["src/**/*.test.ts"],
+  "references": [
+    { "path": "../chains" },
+    { "path": "../rpc" },
+    { "path": "../crypto" },
+    { "path": "../keyring" },
+    { "path": "../tx" }
+  ]
+}

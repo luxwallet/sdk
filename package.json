@@ -1,0 +1,23 @@
+{
+  "name": "@luxwallet/sdk-monorepo",
+  "version": "0.0.0",
+  "private": true,
+  "description": "Unified Lux Wallet shared core — chain registry, gateway RPC, PQ crypto facade, keyring, tx builders.",
+  "license": "MIT",
+  "type": "module",
+  "engines": {
+    "node": ">=20"
+  },
+  "packageManager": "pnpm@9.15.0",
+  "scripts": {
+    "build": "pnpm -r build",
+    "typecheck": "pnpm -r typecheck",
+    "test": "pnpm -r test",
+    "verify": "node scripts/verify-clean.mjs",
+    "chains:emit": "pnpm --filter @luxwallet/chains emit"
+  },
+  "devDependencies": {
+    "typescript": "^5.7.3",
+    "vitest": "^3.0.5"
+  }
+}
