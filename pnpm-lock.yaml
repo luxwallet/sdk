@@ -17,6 +17,9 @@ importers:
 
   packages/brand:
     devDependencies:
+      '@luxwallet/chains':
+        specifier: workspace:*
+        version: link:../chains
       tsx:
         specifier: ^4.19.2
         version: 4.22.4

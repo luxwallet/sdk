@@ -165,6 +165,70 @@ export const HANZO_BRAND: BrandConfig = defineBrand({
   chains: ["hanzo-mainnet"],
 });
 
+/** Example Zoo brand. */
+export const ZOO_BRAND: BrandConfig = defineBrand({
+  id: "zoo",
+  name: "Zoo Wallet",
+  shortName: "Zoo",
+  domain: "zoo.network",
+  iam: {
+    serverUrl: "https://iam.zoo.ngo",
+    clientId: "zoo-wallet",
+    scopes: ["openid", "profile", "email"],
+  },
+  gateway: {
+    rpcBaseUrl: "https://api.zoo.network",
+  },
+  theme: {
+    accent1: "#FFFFFF",
+    surface1: "#000000",
+    neutral1: "#FFFFFF",
+  },
+  chains: ["zoo-mainnet"],
+});
+
+/**
+ * The built-in brands keyed by id. A native build selects one by id at build
+ * time (`BRAND=lux|hanzo|zoo`) to bake an immutable per-brand installer; the
+ * web app instead loads a brand.json at runtime. This map is the ONE place the
+ * brand set lives — never enumerate brands elsewhere.
+ */
+export const BRANDS: Readonly<Record<string, BrandConfig>> = {
+  lux: LUX_BRAND,
+  hanzo: HANZO_BRAND,
+  zoo: ZOO_BRAND,
+};
+
+/**
+ * Look up a built-in brand by id. Throws on an unknown id so a build that
+ * passes a typo'd `BRAND` fails loudly instead of silently shipping Lux.
+ */
+export function getBrandById(id: string): BrandConfig {
+  const b = BRANDS[id];
+  if (!b) {
+    throw new Error(
+      `@luxwallet/brand: unknown brand id ${JSON.stringify(id)}; known: ${Object.keys(BRANDS).join(", ")}`,
+    );
+  }
+  return b;
+}
+
+/**
+ * The brand's default chain — the FIRST entry in `chains`. This is the chain id
+ * (registry key, e.g. "lux-c-mainnet") a freshly installed wallet selects. The
+ * EVM chain id (96369) is resolved from `@luxwallet/chains` by the build's
+ * brand-baking step (see scripts/emit-brand.ts); this runtime stays dependency
+ * free and never hardcodes EVM ids.
+ */
+export function defaultChainId(b: BrandConfig): string {
+  const first = b.chains[0];
+  if (first === undefined) {
+    // defineBrand forbids an empty chain set; this guards a hand-built config.
+    throw new Error(`@luxwallet/brand: brand ${JSON.stringify(b.id)} has no chains`);
+  }
+  return first;
+}
+
 /**
  * The live brand singleton. Defaults to Lux so chain-dependent code is
  * correct BEFORE `loadBrandConfig()` resolves. `loadBrandConfig` mutates

@@ -1,12 +1,16 @@
 import { afterEach, beforeEach, describe, expect, it, vi } from "vitest";
 import {
   type BrandConfig,
+  BRANDS,
   HANZO_BRAND,
   LUX_BRAND,
+  ZOO_BRAND,
   brand,
   brandCssVarName,
+  defaultChainId,
   defineBrand,
   getBrand,
+  getBrandById,
   loadBrandConfig,
 } from "./index.js";
 
@@ -54,6 +58,36 @@ describe("@luxwallet/brand defineBrand", () => {
 describe("@luxwallet/brand brandCssVarName", () => {
   it("prefixes tokens with --lw-", () => {
     expect(brandCssVarName("accent1")).toBe("--lw-accent1");
+  });
+});
+
+describe("@luxwallet/brand built-in brand registry", () => {
+  it("ships a valid ZOO_BRAND", () => {
+    expect(ZOO_BRAND.id).toBe("zoo");
+    expect(ZOO_BRAND.iam.clientId).toBe("zoo-wallet");
+    expect(defineBrand(ZOO_BRAND)).toEqual(ZOO_BRAND);
+  });
+
+  it("registers lux/hanzo/zoo in BRANDS keyed by id", () => {
+    expect(Object.keys(BRANDS).sort()).toEqual(["hanzo", "lux", "zoo"]);
+    expect(BRANDS.lux).toBe(LUX_BRAND);
+    expect(BRANDS.hanzo).toBe(HANZO_BRAND);
+    expect(BRANDS.zoo).toBe(ZOO_BRAND);
+  });
+
+  it("getBrandById returns the brand for a known id", () => {
+    expect(getBrandById("lux")).toBe(LUX_BRAND);
+    expect(getBrandById("zoo")).toBe(ZOO_BRAND);
+  });
+
+  it("getBrandById throws loudly on an unknown id", () => {
+    expect(() => getBrandById("nope")).toThrow(/unknown brand id "nope"/);
+  });
+
+  it("defaultChainId is the brand's first chain (the install default)", () => {
+    expect(defaultChainId(LUX_BRAND)).toBe("lux-c-mainnet");
+    expect(defaultChainId(HANZO_BRAND)).toBe("hanzo-mainnet");
+    expect(defaultChainId(ZOO_BRAND)).toBe("zoo-mainnet");
   });
 });
 
