@@ -1,17 +1,22 @@
 /**
- * Non-EVM tx builders — typed stubs. Each throws "builder todo" and is
- * marked `builderStatus: "todo"`. The Lux tx-type surface to implement is
- * documented in @luxwallet/tx LLM.md (P-Chain platform txs, X-Chain UTXO
- * txs, atomic import/export, Warp).
+ * Lux-native non-EVM tx builders — still typed stubs. Each throws
+ * "builder todo" and is marked `builderStatus: "todo"`. The Lux tx-type
+ * surface to implement is documented in @luxwallet/tx LLM.md (P-Chain
+ * platform txs, X-Chain UTXO txs, atomic import/export, Warp, Z-Chain ZK).
+ *
+ * The external bridge chains (solana/xrp/ton/bitcoin/polkadot/cardano)
+ * are REAL — see their own modules (solana.ts, xrp.ts, …) and
+ * BUILDER_STATUS in index.ts. The `svm` stub is gone (Solana is real);
+ * the `utxo` stub here covers ONLY Lux atomic import/export, not Bitcoin.
  */
 import type { BuilderStatus, UnsignedTx } from "./types.js";
 
-/** Status table for the non-EVM families. */
-export const BUILDER_STATUS: Record<"platform" | "utxo" | "svm" | "zk", BuilderStatus> = {
-  platform: "todo",
-  utxo: "todo",
-  svm: "todo",
-  zk: "todo",
+/** Status table for the Lux-native families that remain unimplemented. */
+export const STUB_BUILDER_STATUS: Record<"platform" | "exchange" | "utxo" | "zk", BuilderStatus> = {
+  platform: "todo", // Lux P-Chain
+  exchange: "todo", // Lux X-Chain
+  utxo: "todo", // Lux atomic import/export + Warp
+  zk: "todo", // Lux Z-Chain
 };
 
 function todo(family: string): never {
@@ -28,12 +33,12 @@ export function buildExchangeUnsignedTx(_intent: unknown): UnsignedTx {
   return todo("exchangevm (X-Chain)");
 }
 
-/** Generic UTXO tx builder (atomic import/export, Warp). TODO. */
+/** Lux atomic import/export + Warp tx builder. TODO. */
 export function buildUtxoUnsignedTx(_intent: unknown): UnsignedTx {
-  return todo("utxo");
+  return todo("utxo (atomic import/export, Warp)");
 }
 
-/** SVM (Solana-VM family) tx builder. TODO. */
-export function buildSvmUnsignedTx(_intent: unknown): UnsignedTx {
-  return todo("svm");
+/** Z-Chain (ZK) tx builder. TODO. */
+export function buildZkUnsignedTx(_intent: unknown): UnsignedTx {
+  return todo("zk (Z-Chain)");
 }
