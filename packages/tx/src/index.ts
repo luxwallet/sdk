@@ -45,14 +45,10 @@ export { selectCardanoInputs } from "./cardano-select.js";
 
 // ── Lux-native builders ──────────────────────────────────────────────
 export { buildXvmUnsignedTx } from "./lux/xvm.js";
+export { buildPlatformvmUnsignedTx } from "./lux/platformvm.js";
 
 // ── Lux-native stubs (still todo) ────────────────────────────────────
-export {
-  STUB_BUILDER_STATUS,
-  buildPlatformUnsignedTx,
-  buildUtxoUnsignedTx,
-  buildZkUnsignedTx,
-} from "./stubs.js";
+export { STUB_BUILDER_STATUS, buildUtxoUnsignedTx, buildZkUnsignedTx } from "./stubs.js";
 
 /**
  * Builder readiness, by chain/family key. Honest status:
@@ -88,8 +84,10 @@ export const BUILDER_STATUS: Record<
   // READY: Lux X-Chain (xvm) — base/export/import unsigned bytes match the
   // Go SDK byte-for-byte (lux/xvm.test.ts KAT). buildXvmUnsignedTx.
   exchange: "ready",
-  // Lux-native — typed stubs until platformvm.ts/qchain.ts/zchain.ts land.
-  platform: "todo",
+  // READY: Lux P-Chain (platformvm) — base/import/export/addValidator/
+  // addDelegator match the Go SDK byte-for-byte (lux/platformvm.test.ts).
+  platform: "ready",
+  // Lux-native — typed stubs until qchain.ts/zchain.ts land.
   utxo: "todo",
   zk: "todo",
 };

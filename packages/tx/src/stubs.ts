@@ -12,19 +12,13 @@
 import type { BuilderStatus, UnsignedTx } from "./types.js";
 
 /** Status table for the Lux-native families that remain unimplemented. */
-export const STUB_BUILDER_STATUS: Record<"platform" | "utxo" | "zk", BuilderStatus> = {
-  platform: "todo", // Lux P-Chain
+export const STUB_BUILDER_STATUS: Record<"utxo" | "zk", BuilderStatus> = {
   utxo: "todo", // Lux atomic import/export + Warp
   zk: "todo", // Lux Z-Chain
 };
 
 function todo(family: string): never {
   throw new Error(`@luxwallet/tx: ${family} builder todo — see LLM.md`);
-}
-
-/** P-Chain (platformvm) tx builder. TODO: 26 tx types. */
-export function buildPlatformUnsignedTx(_intent: unknown): UnsignedTx {
-  return todo("platformvm (P-Chain)");
 }
 
 /** Lux atomic import/export + Warp tx builder. TODO. */
