@@ -15,7 +15,16 @@
  *  - `zk`       Z-Chain (ZK) — privacy/rollup family.
  *  - `pqevm`    Q-Chain — post-quantum EVM.
  */
-export type ChainFamily = "evm" | "utxo" | "platform" | "zk" | "pqevm";
+export type ChainFamily =
+  | "evm"
+  | "utxo" // Bitcoin + Lux X-Chain
+  | "platform" // Lux P-Chain
+  | "zk" // Lux Z-Chain
+  | "pqevm" // Lux Q-Chain
+  | "solana"
+  | "ton"
+  | "xrp"
+  | "substrate"; // Polkadot / DOT
 
 /**
  * Build status of the `@luxwallet/tx` builder for this chain.
