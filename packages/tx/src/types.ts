@@ -245,12 +245,12 @@ export interface CardanoOutput {
 }
 
 /**
- * Cardano transfer intent. PARTIAL: the builder constructs a tx body and
- * returns its hash to sign, but the caller supplies the UTXOs, the exact
- * outputs (incl. change), the `fee`, and the `ttl`. Fee depends on
- * protocol params and the final witness count, which the offline builder
- * cannot determine — the caller computes it (or overestimates) and the
- * builder records it verbatim.
+ * Cardano transfer intent. The builder constructs a tx body and returns
+ * its blake2b-256 hash to sign. The caller supplies the selected inputs,
+ * the exact outputs (incl. change), the `fee`, and the `ttl`. Use
+ * {@link CardanoSelection} from `selectCardanoInputs` to go from a UTXO
+ * set + protocol params to a complete intent (it computes the exact
+ * min-fee for the witness count).
  */
 export interface CardanoTxIntent {
   inputs: CardanoInput[];
@@ -259,4 +259,47 @@ export interface CardanoTxIntent {
   fee: string;
   /** Time-to-live (absolute slot number). */
   ttl: number;
+}
+
+/**
+ * A spendable Cardano UTXO candidate for `selectCardanoInputs`. Extends
+ * {@link CardanoInput} with the ADA value at that output (lovelace) so
+ * the selector can pick a covering subset.
+ */
+export interface CardanoUtxo extends CardanoInput {
+  /** Lovelace held at this output (decimal string). */
+  lovelace: string;
+}
+
+/**
+ * Cardano protocol parameters needed for the min-fee calculation. The
+ * caller fetches these from a provider (e.g. Blockfrost
+ * `/epochs/latest/parameters`): `min_fee_a`/`min_fee_b` are the linear
+ * fee coefficients; `coins_per_utxo_byte` bounds the minimum ADA a UTXO
+ * (incl. change) must hold.
+ */
+export interface CardanoProtocolParams {
+  /** Linear fee slope (lovelace per byte). Mainnet: 44. */
+  minFeeA: number;
+  /** Linear fee constant (lovelace). Mainnet: 155381. */
+  minFeeB: number;
+  /** Minimum lovelace per UTXO byte. Mainnet: 4310. */
+  coinsPerUtxoByte: number;
+}
+
+/**
+ * Result of {@link selectCardanoInputs}: chosen inputs, the final output
+ * set (recipients + a change output when above the min-ADA threshold),
+ * the exact `fee`, and the `ttl` echoed back. Feed straight into
+ * {@link CardanoTxIntent}.
+ */
+export interface CardanoSelection {
+  inputs: CardanoInput[];
+  outputs: CardanoOutput[];
+  /** Exact min-fee in lovelace for the selected witness count (decimal). */
+  fee: string;
+  /** Time-to-live echoed back from the request. */
+  ttl: number;
+  /** Change in lovelace routed to `changeAddress` (0 if dropped to fee). */
+  change: string;
 }

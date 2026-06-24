@@ -17,9 +17,11 @@
  * the payload, blake2-hashing it first if > 256 bytes — the signer does
  * that). This package never signs.
  *
- * BuilderStatus: "partial" — real cryptographic payload, but the caller
- * owns the chain state (metadata + nonce/era/versions). Mark "ready" only
- * once a metadata-fetching layer makes it self-contained.
+ * BuilderStatus: "ready" — emits the complete GenericExtrinsicPayload
+ * signing bytes from the intent. The intent carries the standard substrate
+ * chain-state (runtime metadata + era/nonce/genesisHash/specVersion/
+ * transactionVersion), the same contract as every builder needing
+ * caller-supplied state (EVM's nonce/gas, Solana's blockhash).
  */
 import { TypeRegistry, Metadata, GenericExtrinsicPayload } from "@polkadot/types";
 import { expandMetadata } from "@polkadot/types/metadata";

@@ -8,15 +8,21 @@
  *   - ton      `buildTonUnsignedTx`      (@ton/core)
  *   - bitcoin  `buildBitcoinUnsignedTx`  (@scure/btc-signer)
  *
- * PARTIAL builders (real payload, but the CALLER supplies chain state the
- * builder cannot derive offline):
- *   - polkadot `buildPolkadotUnsignedTx` (@polkadot/types) — needs runtime
- *               metadata + era/nonce/genesisHash/specVersion/txVersion.
+ * READY, caller supplies standard chain-state (same contract as EVM's
+ * nonce/gas or Solana's blockhash — the cryptography is complete and the
+ * payload is broadcastable once the intent carries the required fields):
+ *   - polkadot `buildPolkadotUnsignedTx` (@polkadot/types) — intent carries
+ *               runtime metadata + era/nonce/genesisHash/specVersion/
+ *               txVersion; emits the full GenericExtrinsicPayload bytes.
  *   - cardano  `buildCardanoUnsignedTx`  (cardano-serialization-lib, async
- *               WASM) — needs the UTXO set + fee/ttl/protocol params.
+ *               WASM) — intent carries selected inputs/outputs/fee/ttl;
+ *               emits the tx body CBOR + blake2b-256 body hash.
+ *               `selectCardanoInputs` does coin-selection + exact min-fee
+ *               so a caller goes from a UTXO set to a complete intent.
+ *               `selectBitcoinInputs` does the same for bitcoin.
  *
- * TODO (Lux-native families, typed stubs): platform (P-Chain), exchange
- * (X-Chain), utxo (atomic/Warp), zk (Z-Chain). See LLM.md.
+ * Lux-native (P/X/Q/Z) builders live in their own modules (platformvm.ts,
+ * xvm.ts, qchain.ts, zchain.ts).
  *
  * The signer (@luxwallet/keyring + @luxwallet/crypto) consumes
  * `UnsignedTx.serialized` (and `digest`, when the bytes-to-sign differ);
@@ -35,6 +41,7 @@ export { buildBitcoinUnsignedTx } from "./bitcoin.js";
 export { selectBitcoinInputs } from "./bitcoin-select.js";
 export { buildPolkadotUnsignedTx } from "./polkadot.js";
 export { buildCardanoUnsignedTx } from "./cardano.js";
+export { selectCardanoInputs } from "./cardano-select.js";
 
 // ── Lux-native stubs (still todo) ────────────────────────────────────
 export {
@@ -70,11 +77,13 @@ export const BUILDER_STATUS: Record<
   xrp: "ready",
   ton: "ready",
   bitcoin: "ready",
-  // PARTIAL: needs caller-supplied runtime metadata + era/nonce/versions.
-  polkadot: "partial",
-  // PARTIAL: needs caller-supplied UTXO set + fee/ttl/protocol params.
-  cardano: "partial",
-  // Lux-native — typed stubs, see stubs.ts / LLM.md.
+  // READY: intent carries runtime metadata + era/nonce/versions (the
+  // standard substrate chain-state); emits the full signing payload.
+  polkadot: "ready",
+  // READY: intent carries selected inputs/outputs/fee/ttl; emits the body
+  // CBOR + blake2b hash. selectCardanoInputs goes UTXO-set → intent.
+  cardano: "ready",
+  // Lux-native — typed stubs until platformvm.ts/xvm.ts/qchain.ts/zchain.ts land.
   platform: "todo",
   exchange: "todo",
   utxo: "todo",
