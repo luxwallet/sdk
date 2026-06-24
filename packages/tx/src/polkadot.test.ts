@@ -68,6 +68,48 @@ describe("@luxwallet/tx Polkadot builder (partial — caller supplies metadata)"
     );
   });
 
+  it("emits the COMPLETE signing payload — byte-for-byte vs an independently built GenericExtrinsicPayload", async () => {
+    // Reconstruct the full ExtrinsicPayload from the intent fields (the
+    // canonical signable bytes) and assert the builder's output equals it
+    // EXACTLY. This proves a complete payload (method + era + nonce + tip +
+    // specVersion + transactionVersion + genesisHash + blockHash), not just
+    // a correct prefix — the bar for "ready".
+    const { GenericExtrinsicPayload } = await import("@polkadot/types");
+    const { registry, call } = refCall();
+    const ref = new GenericExtrinsicPayload(
+      registry,
+      {
+        method: call.toHex(),
+        era: "0x00",
+        nonce: intent.nonce,
+        tip: "0",
+        specVersion: intent.specVersion,
+        transactionVersion: intent.transactionVersion,
+        genesisHash: GENESIS,
+        blockHash: GENESIS,
+      },
+      { version: 4 },
+    );
+    const refHex = ref.toU8a({ method: true });
+    let refStr = "0x";
+    for (const b of refHex) refStr += b.toString(16).padStart(2, "0");
+
+    const tx = buildPolkadotUnsignedTx(intent);
+    expect(tx.serialized).toBe(refStr);
+  });
+
+  it("encodes a mortal era + non-zero tip into the payload (not just immortal)", () => {
+    // Era "0x4503" is a real SCALE mortal era. Assert the builder threads
+    // both through so the payload is complete for mortal txs too.
+    const mortal = buildPolkadotUnsignedTx({ ...intent, era: "0x4503", tip: "1000000000" });
+    expect(mortal.summary.mortality).toBe("mortal");
+    expect(mortal.summary.tip).toBe("1000000000");
+    // The immortal payload and the mortal one must differ (era/tip change
+    // the signed bytes), proving those fields are actually encoded.
+    const immortal = buildPolkadotUnsignedTx(intent);
+    expect(mortal.serialized).not.toBe(immortal.serialized);
+  });
+
   it("rejects non-positive amounts", () => {
     expect(() => buildPolkadotUnsignedTx({ ...intent, amount: "0" })).toThrow(/> 0/);
   });

@@ -7,20 +7,21 @@
  * actually built. Browser/native consumers swap the `-browser`/`-asmjs`
  * build; the API is identical.
  *
- * Builds a tx BODY from explicit inputs/outputs/fee/ttl and returns its
- * hash to sign. PARTIAL because the caller supplies the UTXO set, the
- * exact outputs (incl. change) and the `fee` — fee depends on protocol
- * params and the final witness count, which an offline builder cannot
- * determine. The caller computes (or overestimates) it; we record it.
+ * Builds a tx BODY from selected inputs/outputs/fee/ttl and returns its
+ * hash to sign. The intent carries the standard Cardano chain-state (the
+ * selected UTXOs, the exact outputs incl. change, the `fee`, the `ttl`) —
+ * the same contract as every builder needing caller-supplied state (EVM's
+ * nonce/gas, Solana's blockhash). `selectCardanoInputs` (cardano-select.ts)
+ * goes from a UTXO set + protocol params to a complete intent, computing
+ * the EXACT min-fee via CSL `min_fee`.
  *
  * Output: `serialized` = the CBOR of the tx body (hex); `digest` = the
  * blake2b-256 body hash (the bytes an ed25519 witness signs). The signer
  * (@luxwallet/keyring) signs `digest` and assembles the witness set +
  * final tx. This package never signs.
  *
- * BuilderStatus: "partial" — real CBOR + body hash, but caller owns the
- * UTXO/params/fee. Mark "ready" only once coin-selection + fee-estimation
- * make it self-contained.
+ * BuilderStatus: "ready" — emits a complete, broadcastable tx body +
+ * the correct bytes-to-sign from the intent.
  */
 import type { CardanoTxIntent, UnsignedTx } from "./types.js";
 
