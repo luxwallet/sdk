@@ -92,6 +92,7 @@ export const CHAINS: readonly ChainEntry[] = [
   evm({ id: "arbitrum", name: "Arbitrum One", evmChainId: 42161, symbol: "ETH", mainnet: true }),
   evm({ id: "base", name: "Base", evmChainId: 8453, symbol: "ETH", mainnet: true }),
   evm({ id: "polygon", name: "Polygon", evmChainId: 137, symbol: "POL", mainnet: true }),
+  evm({ id: "optimism", name: "Optimism", evmChainId: 10, symbol: "ETH", mainnet: true }),
   evm({ id: "avalanche", name: "Avalanche C-Chain", evmChainId: 43114, symbol: "AVAX", mainnet: true }),
 
   // ── Non-EVM Lux primary-network families (builders: todo) ────────
