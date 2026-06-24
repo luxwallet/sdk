@@ -31,6 +31,7 @@ const SOLANA_COIN_TYPE = 501;
 const TON_COIN_TYPE = 607;
 const XRP_COIN_TYPE = 144;
 const DOT_COIN_TYPE = 354;
+const ADA_COIN_TYPE = 1815;
 /** BIP-44 coin type for native Lux families (HIP-0077). */
 const LUX_COIN_TYPE = 9000;
 
@@ -94,6 +95,19 @@ export const CHAINS: readonly ChainEntry[] = [
   evm({ id: "polygon", name: "Polygon", evmChainId: 137, symbol: "POL", mainnet: true }),
   evm({ id: "optimism", name: "Optimism", evmChainId: 10, symbol: "ETH", mainnet: true }),
   evm({ id: "avalanche", name: "Avalanche C-Chain", evmChainId: 43114, symbol: "AVAX", mainnet: true }),
+
+  // ── Major EVM L1/L2s (broad multichain coverage) ─────────────────
+  // The evm login + tx builder are chain-agnostic; these are first-class
+  // wallet chains. An app narrows the active set via its brand `chains`.
+  evm({ id: "bnb", name: "BNB Smart Chain", evmChainId: 56, symbol: "BNB", mainnet: true }),
+  evm({ id: "gnosis", name: "Gnosis", evmChainId: 100, symbol: "XDAI", mainnet: true }),
+  evm({ id: "celo", name: "Celo", evmChainId: 42220, symbol: "CELO", mainnet: true }),
+  evm({ id: "fantom", name: "Fantom", evmChainId: 250, symbol: "FTM", mainnet: true }),
+  evm({ id: "linea", name: "Linea", evmChainId: 59144, symbol: "ETH", mainnet: true }),
+  evm({ id: "scroll", name: "Scroll", evmChainId: 534352, symbol: "ETH", mainnet: true }),
+  evm({ id: "zksync", name: "zkSync Era", evmChainId: 324, symbol: "ETH", mainnet: true }),
+  evm({ id: "mantle", name: "Mantle", evmChainId: 5000, symbol: "MNT", mainnet: true }),
+  evm({ id: "blast", name: "Blast", evmChainId: 81457, symbol: "ETH", mainnet: true }),
 
   // ── Non-EVM Lux primary-network families (builders: todo) ────────
   // Registry entries only. `@luxwallet/tx` exposes typed stubs; see its
@@ -213,6 +227,20 @@ export const CHAINS: readonly ChainEntry[] = [
     rpcRoute: "dot",
     bip44: { coinType: DOT_COIN_TYPE, path: `m/44'/${DOT_COIN_TYPE}'/0'` },
     nativeAsset: { symbol: "DOT", decimals: 10 },
+    builderStatus: "todo",
+  },
+  {
+    id: "cardano",
+    name: "Cardano",
+    family: "cardano",
+    networkId: 0,
+    mainnet: true,
+    testnet: false,
+    rpcRoute: "ada",
+    // Cardano uses CIP-1852 (m/1852'/1815'/...) but the registry path is the
+    // family root the keyring extends; login is ed25519 via @luxwallet/connect.
+    bip44: { coinType: ADA_COIN_TYPE, path: `m/1852'/${ADA_COIN_TYPE}'/0'` },
+    nativeAsset: { symbol: "ADA", decimals: 6 },
     builderStatus: "todo",
   },
 ] as const;

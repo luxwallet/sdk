@@ -24,7 +24,8 @@ export type ChainFamily =
   | "solana"
   | "ton"
   | "xrp"
-  | "substrate"; // Polkadot / DOT
+  | "substrate" // Polkadot / DOT
+  | "cardano"; // Cardano / ADA (ed25519, CIP-30/CIP-8)
 
 /**
  * Build status of the `@luxwallet/tx` builder for this chain.
