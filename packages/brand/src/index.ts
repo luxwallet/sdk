@@ -144,8 +144,11 @@ export const LUX_BRAND: BrandConfig = defineBrand({
   // endpoint (bridge.lux.network supportedChains) so bridging works natively.
   chains: [
     "lux-c-mainnet", "lux-x-mainnet", "lux-p-mainnet",
-    "ethereum", "arbitrum", "base", "polygon", "avalanche",
-    "bitcoin", "solana", "ton", "xrp", "polkadot",
+    // EVM (bridge endpoints + major L1/L2s)
+    "ethereum", "arbitrum", "base", "polygon", "optimism", "avalanche",
+    "bnb", "gnosis", "celo", "fantom", "linea", "scroll", "zksync", "mantle", "blast",
+    // Non-EVM ecosystems
+    "bitcoin", "solana", "ton", "xrp", "polkadot", "cardano",
   ],
 });
 
