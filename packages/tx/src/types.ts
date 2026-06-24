@@ -303,3 +303,152 @@ export interface CardanoSelection {
   /** Change in lovelace routed to `changeAddress` (0 if dropped to fee). */
   change: string;
 }
+
+// ── Lux-native families (X/P/Q/Z) ────────────────────────────────────
+
+/**
+ * A secp256k1fx UTXO output for Lux X/P-Chain txs. `addresses` are
+ * 20-byte hex short-ids (the keyring derives these); the builder sorts
+ * them. The caller picks the UTXOs and outputs (incl. change) — the same
+ * UTXO-wallet contract as Bitcoin/Cardano. `assetId` is the 32-byte hex
+ * asset id (the LUX asset id on the target chain).
+ */
+export interface LuxUtxoOutput {
+  assetId: string;
+  amount: string;
+  locktime?: string;
+  threshold?: number;
+  addresses: string[];
+}
+
+/** A secp256k1fx UTXO input (a UTXO being spent) for Lux X/P-Chain txs. */
+export interface LuxUtxoInput {
+  txId: string;
+  outputIndex: number;
+  assetId: string;
+  amount: string;
+  sigIndices?: number[];
+}
+
+/**
+ * Lux X-Chain (xvm) tx intent. `kind` selects the tx type:
+ *  - `base`   asset transfer within the X-Chain (BaseTx).
+ *  - `export` move assets to another chain (ExportTx → `destinationChain`).
+ *  - `import` claim assets from another chain (ImportTx ← `sourceChain`).
+ *
+ * The caller supplies the selected UTXOs + outputs (the standard UTXO
+ * chain-state, like Bitcoin). `networkId` + `blockchainId` come from the
+ * chain registry. The builder emits the canonical unsigned bytes
+ * `Codec.Marshal(0, &tx.Unsigned)` — exactly what the keyring signs.
+ */
+export interface LuxXTxIntent {
+  kind: "base" | "export" | "import";
+  /** Lux network id (mainnet primary = 1). */
+  networkId: number;
+  /** 32-byte X-Chain blockchain id (hex). */
+  blockchainId: string;
+  /** Inputs spent on the X-Chain (BaseTx/Export: the funding UTXOs). */
+  inputs: LuxUtxoInput[];
+  /** Outputs created on the X-Chain (recipients + change). */
+  outputs: LuxUtxoOutput[];
+  /** Optional memo (≤256 bytes), hex. Default empty. */
+  memo?: string;
+  /** export only: 32-byte destination chain id (hex). */
+  destinationChain?: string;
+  /** export only: outputs created on the destination chain. */
+  exportedOutputs?: LuxUtxoOutput[];
+  /** import only: 32-byte source chain id (hex). */
+  sourceChain?: string;
+  /** import only: inputs consumed from the source chain. */
+  importedInputs?: LuxUtxoInput[];
+}
+
+/**
+ * Lux P-Chain (platformvm) tx intent. `kind` selects the tx type:
+ *  - `base`         move assets within the P-Chain (BaseTx).
+ *  - `import`       claim assets from another chain (ImportTx).
+ *  - `export`       move assets to another chain (ExportTx).
+ *  - `addValidator` stake to validate the primary network (AddValidatorTx).
+ *  - `addDelegator` delegate stake to a validator (AddDelegatorTx).
+ *
+ * Same UTXO chain-state contract as the X-Chain. Staking txs add the
+ * validator window + stake outputs + rewards owner.
+ */
+export interface LuxPTxIntent {
+  kind: "base" | "import" | "export" | "addValidator" | "addDelegator";
+  networkId: number;
+  /** 32-byte P-Chain blockchain id (hex; the P-Chain id is ids.Empty). */
+  blockchainId: string;
+  inputs: LuxUtxoInput[];
+  outputs: LuxUtxoOutput[];
+  memo?: string;
+  /** import only. */
+  sourceChain?: string;
+  importedInputs?: LuxUtxoInput[];
+  /** export only. */
+  destinationChain?: string;
+  exportedOutputs?: LuxUtxoOutput[];
+  /** addValidator/addDelegator only: the staking window + stake. */
+  validator?: LuxValidator;
+  /** addValidator/addDelegator only: locked stake outputs. */
+  stakeOutputs?: LuxUtxoOutput[];
+  /** addValidator/addDelegator only: who receives staking rewards. */
+  rewardsOwner?: LuxOutputOwner;
+  /** addValidator only: delegation fee, in 10,000ths of a percent (0..1e6). */
+  delegationShares?: number;
+}
+
+/** A P-Chain validator window: node + stake amount + start/end times. */
+export interface LuxValidator {
+  /** 20-byte node id (hex). */
+  nodeId: string;
+  /** Unix start time of the staking window. */
+  start: number;
+  /** Unix end time of the staking window. */
+  end: number;
+  /** Stake weight (base units). */
+  weight: string;
+}
+
+/** A secp256k1fx output owner set (locktime + threshold + addresses). */
+export interface LuxOutputOwner {
+  locktime?: string;
+  threshold?: number;
+  addresses: string[];
+}
+
+/**
+ * Lux Q-Chain (post-quantum EVM) tx intent. The Q-Chain's UNSIGNED tx is
+ * a standard EIP-1559 transaction — identical encoding to any EVM chain.
+ * Post-quantum affects only the SIGNATURE the keyring attaches (ML-DSA
+ * via luxfi/crypto), not the unsigned bytes. So the unsigned builder is
+ * the EVM builder with the Q-Chain's chain id. Fields mirror
+ * {@link EvmTxIntent}.
+ */
+export interface LuxQTxIntent {
+  /** Q-Chain EVM chain id. */
+  chainId: number;
+  to?: `0x${string}`;
+  value?: string;
+  data?: `0x${string}`;
+  nonce: number;
+  gas: string;
+  maxFeePerGas: string;
+  maxPriorityFeePerGas: string;
+}
+
+/**
+ * Lux Z-Chain (ZK) transfer intent. The Z-Chain is a UTXO chain (the same
+ * secp256k1fx/codec family as the X-Chain) with shielded extensions. The
+ * core transfer encoding is the X-Chain BaseTx wire format; this intent
+ * scaffolds that core encoding (transparent inputs/outputs). Shielded
+ * note commitments ride as memo-encoded extensions in a later revision.
+ */
+export interface LuxZTxIntent {
+  networkId: number;
+  /** 32-byte Z-Chain blockchain id (hex). */
+  blockchainId: string;
+  inputs: LuxUtxoInput[];
+  outputs: LuxUtxoOutput[];
+  memo?: string;
+}
