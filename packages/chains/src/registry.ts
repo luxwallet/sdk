@@ -77,6 +77,17 @@ export const CHAINS: readonly ChainEntry[] = [
   evm({ id: "pars-mainnet", name: "Pars", evmChainId: 494949, symbol: "PARS", mainnet: true }),
   evm({ id: "pars-testnet", name: "Pars Testnet", evmChainId: 7071, symbol: "PARS", mainnet: false }),
 
+  // ── External EVM bridge endpoints (Lux Bridge supportedChains) ───
+  // The Lux Bridge (bridge.lux.network /.well-known/bridge.json) bridges to/from
+  // these public EVM chains. They are first-class wallet chains — the `evm`
+  // login + tx builder are chain-agnostic. rpcRoute is the EIP-155 id; an app
+  // may point these at a public RPC instead of the brand gateway.
+  evm({ id: "ethereum", name: "Ethereum", evmChainId: 1, symbol: "ETH", mainnet: true }),
+  evm({ id: "arbitrum", name: "Arbitrum One", evmChainId: 42161, symbol: "ETH", mainnet: true }),
+  evm({ id: "base", name: "Base", evmChainId: 8453, symbol: "ETH", mainnet: true }),
+  evm({ id: "polygon", name: "Polygon", evmChainId: 137, symbol: "POL", mainnet: true }),
+  evm({ id: "avalanche", name: "Avalanche C-Chain", evmChainId: 43114, symbol: "AVAX", mainnet: true }),
+
   // ── Non-EVM Lux primary-network families (builders: todo) ────────
   // Registry entries only. `@luxwallet/tx` exposes typed stubs; see its
   // LLM.md for the Lux tx-type porting plan. networkId 1 == Lux mainnet

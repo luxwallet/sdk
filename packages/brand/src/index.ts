@@ -140,7 +140,12 @@ export const LUX_BRAND: BrandConfig = defineBrand({
     surface1: "#000000",
     neutral1: "#FFFFFF",
   },
-  chains: ["lux-c-mainnet", "lux-x-mainnet", "lux-p-mainnet"],
+  // Enabled out of the box: Lux primary-network chains + every Lux Bridge
+  // endpoint (bridge.lux.network supportedChains) so bridging works natively.
+  chains: [
+    "lux-c-mainnet", "lux-x-mainnet", "lux-p-mainnet",
+    "ethereum", "arbitrum", "base", "polygon", "avalanche",
+  ],
 });
 
 /** Example Hanzo brand. */
