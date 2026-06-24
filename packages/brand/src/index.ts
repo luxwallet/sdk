@@ -145,6 +145,7 @@ export const LUX_BRAND: BrandConfig = defineBrand({
   chains: [
     "lux-c-mainnet", "lux-x-mainnet", "lux-p-mainnet",
     "ethereum", "arbitrum", "base", "polygon", "avalanche",
+    "bitcoin", "solana", "ton", "xrp", "polkadot",
   ],
 });
 

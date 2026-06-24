@@ -25,6 +25,12 @@ import type { ChainEntry } from "./types.js";
 
 /** BIP-44 coin type for EVM chains (Ethereum convention). */
 const EVM_COIN_TYPE = 60;
+// SLIP-44 coin types for the non-EVM bridge families.
+const BTC_COIN_TYPE = 0;
+const SOLANA_COIN_TYPE = 501;
+const TON_COIN_TYPE = 607;
+const XRP_COIN_TYPE = 144;
+const DOT_COIN_TYPE = 354;
 /** BIP-44 coin type for native Lux families (HIP-0077). */
 const LUX_COIN_TYPE = 9000;
 
@@ -141,6 +147,71 @@ export const CHAINS: readonly ChainEntry[] = [
     rpcRoute: "Z",
     bip44: { coinType: LUX_COIN_TYPE, path: `m/44'/${LUX_COIN_TYPE}'/0'` },
     nativeAsset: { symbol: "LUX", decimals: 18 },
+    builderStatus: "todo",
+  },
+
+  // ── Non-EVM external bridge families (Lux Bridge supportedChains) ─
+  // Login is handled by @luxwallet/connect (btc/sol/ton/xrp ✅; dot pending
+  // sr25519). tx-building is `todo` (like the Lux X/P/Q/Z families) — these are
+  // registry entries so the wallet recognises, holds, and bridges these assets.
+  {
+    id: "bitcoin",
+    name: "Bitcoin",
+    family: "utxo",
+    networkId: 0,
+    mainnet: true,
+    testnet: false,
+    rpcRoute: "btc",
+    bip44: { coinType: BTC_COIN_TYPE, path: `m/84'/${BTC_COIN_TYPE}'/0'` },
+    nativeAsset: { symbol: "BTC", decimals: 8 },
+    builderStatus: "todo",
+  },
+  {
+    id: "solana",
+    name: "Solana",
+    family: "solana",
+    networkId: 0,
+    mainnet: true,
+    testnet: false,
+    rpcRoute: "sol",
+    bip44: { coinType: SOLANA_COIN_TYPE, path: `m/44'/${SOLANA_COIN_TYPE}'/0'` },
+    nativeAsset: { symbol: "SOL", decimals: 9 },
+    builderStatus: "todo",
+  },
+  {
+    id: "ton",
+    name: "TON",
+    family: "ton",
+    networkId: 0,
+    mainnet: true,
+    testnet: false,
+    rpcRoute: "ton",
+    bip44: { coinType: TON_COIN_TYPE, path: `m/44'/${TON_COIN_TYPE}'/0'` },
+    nativeAsset: { symbol: "TON", decimals: 9 },
+    builderStatus: "todo",
+  },
+  {
+    id: "xrp",
+    name: "XRP Ledger",
+    family: "xrp",
+    networkId: 0,
+    mainnet: true,
+    testnet: false,
+    rpcRoute: "xrp",
+    bip44: { coinType: XRP_COIN_TYPE, path: `m/44'/${XRP_COIN_TYPE}'/0'` },
+    nativeAsset: { symbol: "XRP", decimals: 6 },
+    builderStatus: "todo",
+  },
+  {
+    id: "polkadot",
+    name: "Polkadot",
+    family: "substrate",
+    networkId: 0,
+    mainnet: true,
+    testnet: false,
+    rpcRoute: "dot",
+    bip44: { coinType: DOT_COIN_TYPE, path: `m/44'/${DOT_COIN_TYPE}'/0'` },
+    nativeAsset: { symbol: "DOT", decimals: 10 },
     builderStatus: "todo",
   },
 ] as const;

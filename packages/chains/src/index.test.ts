@@ -67,7 +67,9 @@ describe("@luxwallet/chains registry", () => {
 
   it("every chain carries a bip44 path and a native asset", () => {
     for (const c of allChains()) {
-      expect(c.bip44.path).toMatch(/^m\/44'/);
+      // A valid BIP-32 derivation rooted at a hardened purpose (BIP-44/49/84/86
+      // — Bitcoin uses BIP-84 native segwit, not BIP-44).
+      expect(c.bip44.path).toMatch(/^m\/\d+'\//);
       expect(c.nativeAsset.decimals).toBeGreaterThan(0);
       expect(c.nativeAsset.symbol.length).toBeGreaterThan(0);
     }
