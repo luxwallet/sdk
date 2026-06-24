@@ -125,9 +125,6 @@ importers:
       '@scure/btc-signer':
         specifier: ^2.2.0
         version: 2.2.0
-      '@solana/web3.js':
-        specifier: ^1.98.4
-        version: 1.98.4(bufferutil@4.1.0)(typescript@5.9.3)(utf-8-validate@6.0.6)
       '@ton/core':
         specifier: ^0.63.1
         version: 0.63.1(@ton/crypto@3.3.0)
@@ -144,6 +141,9 @@ importers:
       '@polkadot/types-support':
         specifier: ^16.5.6
         version: 16.5.6
+      '@solana/web3.js':
+        specifier: ^1.98.4
+        version: 1.98.4(bufferutil@4.1.0)(typescript@5.9.3)(utf-8-validate@6.0.6)
       typescript:
         specifier: ^5.7.3
         version: 5.9.3
