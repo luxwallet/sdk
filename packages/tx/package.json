@@ -1,6 +1,6 @@
 {
   "name": "@luxwallet/tx",
-  "version": "0.0.0",
+  "version": "0.1.0",
   "description": "Per-VM transaction builders. EVM is real (viem). P/X/UTXO/SVM are typed stubs (builderStatus).",
   "license": "MIT",
   "type": "module",
