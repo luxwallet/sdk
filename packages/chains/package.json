@@ -1,6 +1,6 @@
 {
   "name": "@luxwallet/chains",
-  "version": "0.0.0",
+  "version": "0.1.0",
   "description": "Lux Wallet chain registry — one source of truth. Emits chains.json for native (Kotlin/Swift) consumers.",
   "license": "MIT",
   "type": "module",

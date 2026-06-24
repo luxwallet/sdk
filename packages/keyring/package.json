@@ -1,6 +1,6 @@
 {
   "name": "@luxwallet/keyring",
-  "version": "0.0.0",
+  "version": "0.1.0",
   "description": "Lux Wallet account model + keystore — classical + PQ (ML-DSA-65) + SLH-DSA recovery, cSHAKE AccountID, HD paths.",
   "license": "MIT",
   "type": "module",

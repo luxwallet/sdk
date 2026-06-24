@@ -1,6 +1,6 @@
 {
   "name": "@luxwallet/crypto",
-  "version": "0.0.0",
+  "version": "0.1.0",
   "description": "Facade over the luxfi/crypto C core (WASM/native). Classical + PQ (ML-DSA-65, SLH-DSA, ML-KEM). NEVER @noble/post-quantum.",
   "license": "MIT",
   "type": "module",
