@@ -167,6 +167,30 @@ export interface BitcoinTxIntent {
 }
 
 /**
+ * A spendable Bitcoin UTXO candidate for `selectBitcoinInputs`. Identical
+ * shape to {@link BitcoinInput} — the selector chooses a subset of these
+ * to fund the requested outputs.
+ */
+export type BitcoinUtxo = BitcoinInput;
+
+/**
+ * Result of {@link selectBitcoinInputs}: the chosen inputs, the final
+ * output set (recipients + an appended change output when the change is
+ * economically worth keeping), and the absolute fee in satoshis. Feed
+ * `inputs` + `outputs` straight into {@link BitcoinTxIntent}.
+ */
+export interface BitcoinSelection {
+  inputs: BitcoinInput[];
+  outputs: BitcoinOutput[];
+  /** Absolute fee in satoshis = sum(inputs) - sum(outputs). */
+  fee: string;
+  /** Estimated signed virtual size (vBytes) the fee was computed from. */
+  vsize: number;
+  /** Change in satoshis routed back to `changeAddress` (0 if dropped to fee). */
+  change: string;
+}
+
+/**
  * Polkadot `balances.transferKeepAlive` intent. PARTIAL: a full offline
  * signing payload requires the runtime **metadata** (to SCALE-encode the
  * call) plus era/nonce/genesisHash/specVersion/transactionVersion. The

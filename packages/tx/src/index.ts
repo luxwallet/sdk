@@ -32,6 +32,7 @@ export { buildSolanaUnsignedTx } from "./solana.js";
 export { buildXrpUnsignedTx } from "./xrp.js";
 export { buildTonUnsignedTx } from "./ton.js";
 export { buildBitcoinUnsignedTx } from "./bitcoin.js";
+export { selectBitcoinInputs } from "./bitcoin-select.js";
 export { buildPolkadotUnsignedTx } from "./polkadot.js";
 export { buildCardanoUnsignedTx } from "./cardano.js";
 
