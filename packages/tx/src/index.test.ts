@@ -1,6 +1,14 @@
 import { describe, expect, it } from "vitest";
 import { parseTransaction } from "viem";
-import { BUILDER_STATUS, buildEvmUnsignedTx, buildPlatformUnsignedTx } from "./index.js";
+import {
+  BUILDER_STATUS,
+  STUB_BUILDER_STATUS,
+  buildEvmUnsignedTx,
+  buildPlatformUnsignedTx,
+  buildExchangeUnsignedTx,
+  buildUtxoUnsignedTx,
+  buildZkUnsignedTx,
+} from "./index.js";
 
 describe("@luxwallet/tx EVM builder (real)", () => {
   const intent = {
@@ -49,12 +57,38 @@ describe("@luxwallet/tx EVM builder (real)", () => {
   });
 });
 
-describe("@luxwallet/tx non-EVM builders (stubs)", () => {
-  it("marks every non-EVM family builder todo", () => {
-    expect(BUILDER_STATUS).toEqual({ platform: "todo", utxo: "todo", svm: "todo", zk: "todo" });
+describe("@luxwallet/tx builder status table", () => {
+  it("reports honest readiness per chain/family", () => {
+    expect(BUILDER_STATUS).toEqual({
+      evm: "ready",
+      solana: "ready",
+      xrp: "ready",
+      ton: "ready",
+      bitcoin: "ready",
+      polkadot: "partial",
+      cardano: "partial",
+      platform: "todo",
+      exchange: "todo",
+      utxo: "todo",
+      zk: "todo",
+    });
   });
 
+  it("marks every Lux-native stub family todo", () => {
+    expect(STUB_BUILDER_STATUS).toEqual({
+      platform: "todo",
+      exchange: "todo",
+      utxo: "todo",
+      zk: "todo",
+    });
+  });
+});
+
+describe("@luxwallet/tx Lux-native builders (stubs)", () => {
   it("throws a clear todo error when invoked", () => {
     expect(() => buildPlatformUnsignedTx({})).toThrow(/builder todo/);
+    expect(() => buildExchangeUnsignedTx({})).toThrow(/builder todo/);
+    expect(() => buildUtxoUnsignedTx({})).toThrow(/builder todo/);
+    expect(() => buildZkUnsignedTx({})).toThrow(/builder todo/);
   });
 });

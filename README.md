@@ -19,7 +19,7 @@ tighter trees.
 | [`@luxwallet/rpc`](packages/rpc) | Gateway RPC client: `https://<gateway>/v1/rpc/<chainId>`. | real |
 | [`@luxwallet/crypto`](packages/crypto) | Facade over the `luxfi/crypto` C core (classical + PQ). | interface real, impl pending WASM/native bind |
 | [`@luxwallet/keyring`](packages/keyring) | Account model + keystore (classical + ML-DSA-65 + SLH-DSA recovery). | store real, crypto calls pending |
-| [`@luxwallet/tx`](packages/tx) | Per-VM tx builders. EVM real (viem); P/X/UTXO/SVM stubbed. | EVM real, rest `todo` |
+| [`@luxwallet/tx`](packages/tx) | Per-VM unsigned-tx builders. EVM + Solana/XRP/TON/Bitcoin real; Polkadot/Cardano partial (caller-supplied chain state); Lux P/X/UTXO/ZK stubbed. | 5 ready, 2 partial, Lux-native `todo` |
 | [`@luxwallet/sdk`](packages/sdk) | Umbrella barrel re-exporting the modules. | real |
 
 ### connect / SIWx is a separate module
