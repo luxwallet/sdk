@@ -5,7 +5,6 @@ import {
   STUB_BUILDER_STATUS,
   buildEvmUnsignedTx,
   buildPlatformUnsignedTx,
-  buildExchangeUnsignedTx,
   buildUtxoUnsignedTx,
   buildZkUnsignedTx,
 } from "./index.js";
@@ -67,17 +66,16 @@ describe("@luxwallet/tx builder status table", () => {
       bitcoin: "ready",
       polkadot: "ready",
       cardano: "ready",
+      exchange: "ready",
       platform: "todo",
-      exchange: "todo",
       utxo: "todo",
       zk: "todo",
     });
   });
 
-  it("marks every Lux-native stub family todo", () => {
+  it("marks the remaining Lux-native stub families todo", () => {
     expect(STUB_BUILDER_STATUS).toEqual({
       platform: "todo",
-      exchange: "todo",
       utxo: "todo",
       zk: "todo",
     });
@@ -87,7 +85,6 @@ describe("@luxwallet/tx builder status table", () => {
 describe("@luxwallet/tx Lux-native builders (stubs)", () => {
   it("throws a clear todo error when invoked", () => {
     expect(() => buildPlatformUnsignedTx({})).toThrow(/builder todo/);
-    expect(() => buildExchangeUnsignedTx({})).toThrow(/builder todo/);
     expect(() => buildUtxoUnsignedTx({})).toThrow(/builder todo/);
     expect(() => buildZkUnsignedTx({})).toThrow(/builder todo/);
   });

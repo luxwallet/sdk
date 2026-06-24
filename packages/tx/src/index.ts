@@ -43,11 +43,13 @@ export { buildPolkadotUnsignedTx } from "./polkadot.js";
 export { buildCardanoUnsignedTx } from "./cardano.js";
 export { selectCardanoInputs } from "./cardano-select.js";
 
+// ── Lux-native builders ──────────────────────────────────────────────
+export { buildXvmUnsignedTx } from "./lux/xvm.js";
+
 // ── Lux-native stubs (still todo) ────────────────────────────────────
 export {
   STUB_BUILDER_STATUS,
   buildPlatformUnsignedTx,
-  buildExchangeUnsignedTx,
   buildUtxoUnsignedTx,
   buildZkUnsignedTx,
 } from "./stubs.js";
@@ -83,9 +85,11 @@ export const BUILDER_STATUS: Record<
   // READY: intent carries selected inputs/outputs/fee/ttl; emits the body
   // CBOR + blake2b hash. selectCardanoInputs goes UTXO-set → intent.
   cardano: "ready",
-  // Lux-native — typed stubs until platformvm.ts/xvm.ts/qchain.ts/zchain.ts land.
+  // READY: Lux X-Chain (xvm) — base/export/import unsigned bytes match the
+  // Go SDK byte-for-byte (lux/xvm.test.ts KAT). buildXvmUnsignedTx.
+  exchange: "ready",
+  // Lux-native — typed stubs until platformvm.ts/qchain.ts/zchain.ts land.
   platform: "todo",
-  exchange: "todo",
   utxo: "todo",
   zk: "todo",
 };

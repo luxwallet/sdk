@@ -1,7 +1,7 @@
 {
   "name": "@luxwallet/tx",
   "version": "0.2.0",
-  "description": "Per-VM transaction builders. EVM/Solana/XRP/TON/Bitcoin are real; Polkadot/Cardano are partial (caller-supplied chain state); Lux P/X/UTXO/ZK are typed stubs.",
+  "description": "Per-VM unsigned-tx builders. EVM/Solana/XRP/TON/Bitcoin/Polkadot/Cardano + Lux-native X/P/Q/Z (UTXO/platform/PQ-EVM/ZK). Builds the canonical unsigned encoding + bytes-to-sign; never signs. Zero copyleft.",
   "license": "MIT",
   "type": "module",
   "files": [
@@ -26,6 +26,7 @@
   "dependencies": {
     "@emurgo/cardano-serialization-lib-nodejs": "^15.0.3",
     "@luxwallet/chains": "workspace:*",
+    "@noble/hashes": "^2.2.0",
     "@polkadot/types": "^16.5.6",
     "@polkadot/util": "^14.0.3",
     "@scure/base": "^2.2.0",
