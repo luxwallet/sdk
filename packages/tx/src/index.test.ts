@@ -1,12 +1,6 @@
 import { describe, expect, it } from "vitest";
 import { parseTransaction } from "viem";
-import {
-  BUILDER_STATUS,
-  STUB_BUILDER_STATUS,
-  buildEvmUnsignedTx,
-  buildUtxoUnsignedTx,
-  buildZkUnsignedTx,
-} from "./index.js";
+import { BUILDER_STATUS, buildEvmUnsignedTx } from "./index.js";
 
 describe("@luxwallet/tx EVM builder (real)", () => {
   const intent = {
@@ -56,7 +50,7 @@ describe("@luxwallet/tx EVM builder (real)", () => {
 });
 
 describe("@luxwallet/tx builder status table", () => {
-  it("reports honest readiness per chain/family", () => {
+  it("every builder is ready (no partial, no todo)", () => {
     expect(BUILDER_STATUS).toEqual({
       evm: "ready",
       solana: "ready",
@@ -65,24 +59,16 @@ describe("@luxwallet/tx builder status table", () => {
       bitcoin: "ready",
       polkadot: "ready",
       cardano: "ready",
-      exchange: "ready",
-      platform: "ready",
-      utxo: "todo",
-      zk: "todo",
+      luxX: "ready",
+      luxP: "ready",
+      luxQ: "ready",
+      luxZ: "ready",
     });
   });
 
-  it("marks the remaining Lux-native stub families todo", () => {
-    expect(STUB_BUILDER_STATUS).toEqual({
-      utxo: "todo",
-      zk: "todo",
-    });
-  });
-});
-
-describe("@luxwallet/tx Lux-native builders (stubs)", () => {
-  it("throws a clear todo error when invoked", () => {
-    expect(() => buildUtxoUnsignedTx({})).toThrow(/builder todo/);
-    expect(() => buildZkUnsignedTx({})).toThrow(/builder todo/);
+  it("contains no non-ready entries", () => {
+    for (const [key, status] of Object.entries(BUILDER_STATUS)) {
+      expect(status, `${key} must be ready`).toBe("ready");
+    }
   });
 });

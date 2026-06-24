@@ -46,15 +46,18 @@ export { selectCardanoInputs } from "./cardano-select.js";
 // ── Lux-native builders ──────────────────────────────────────────────
 export { buildXvmUnsignedTx } from "./lux/xvm.js";
 export { buildPlatformvmUnsignedTx } from "./lux/platformvm.js";
-
-// ── Lux-native stubs (still todo) ────────────────────────────────────
-export { STUB_BUILDER_STATUS, buildUtxoUnsignedTx, buildZkUnsignedTx } from "./stubs.js";
+export { buildQchainUnsignedTx } from "./lux/qchain.js";
+export { buildZchainUnsignedTx } from "./lux/zchain.js";
 
 /**
- * Builder readiness, by chain/family key. Honest status:
- *  - `ready`   broadcastable unsigned tx from the intent alone.
- *  - `partial` real payload, but caller supplies chain state (see notes).
+ * Builder readiness, by builder key. Keyed by builder identity (not chain
+ * family — `bitcoin` and `luxX` are both the `utxo` family but distinct
+ * builders). Honest status:
+ *  - `ready`   broadcastable unsigned tx (+ bytes-to-sign) from the intent.
  *  - `todo`    typed stub only.
+ *
+ * Lux-native keys map to chains: luxX → X-Chain (utxo), luxP → P-Chain
+ * (platform), luxQ → Q-Chain (pqevm), luxZ → Z-Chain (zk).
  */
 export const BUILDER_STATUS: Record<
   | "evm"
@@ -64,10 +67,10 @@ export const BUILDER_STATUS: Record<
   | "bitcoin"
   | "polkadot"
   | "cardano"
-  | "platform"
-  | "exchange"
-  | "utxo"
-  | "zk",
+  | "luxX"
+  | "luxP"
+  | "luxQ"
+  | "luxZ",
   BuilderStatus
 > = {
   evm: "ready",
@@ -75,19 +78,22 @@ export const BUILDER_STATUS: Record<
   xrp: "ready",
   ton: "ready",
   bitcoin: "ready",
-  // READY: intent carries runtime metadata + era/nonce/versions (the
-  // standard substrate chain-state); emits the full signing payload.
+  // intent carries runtime metadata + era/nonce/versions (the standard
+  // substrate chain-state); emits the full signing payload.
   polkadot: "ready",
-  // READY: intent carries selected inputs/outputs/fee/ttl; emits the body
-  // CBOR + blake2b hash. selectCardanoInputs goes UTXO-set → intent.
+  // intent carries selected inputs/outputs/fee/ttl; emits the body CBOR +
+  // blake2b hash. selectCardanoInputs goes UTXO-set → intent.
   cardano: "ready",
-  // READY: Lux X-Chain (xvm) — base/export/import unsigned bytes match the
-  // Go SDK byte-for-byte (lux/xvm.test.ts KAT). buildXvmUnsignedTx.
-  exchange: "ready",
-  // READY: Lux P-Chain (platformvm) — base/import/export/addValidator/
-  // addDelegator match the Go SDK byte-for-byte (lux/platformvm.test.ts).
-  platform: "ready",
-  // Lux-native — typed stubs until qchain.ts/zchain.ts land.
-  utxo: "todo",
-  zk: "todo",
+  // Lux X-Chain (xvm) — base/export/import bytes match the Go SDK
+  // byte-for-byte (lux/xvm.test.ts KAT).
+  luxX: "ready",
+  // Lux P-Chain (platformvm) — base/import/export/addValidator/addDelegator
+  // match the Go SDK byte-for-byte (lux/platformvm.test.ts KAT).
+  luxP: "ready",
+  // Lux Q-Chain (PQ-EVM) — unsigned tx is canonical EIP-1559 (PQ affects
+  // only the signature); round-trips through viem (lux/qchain.test.ts).
+  luxQ: "ready",
+  // Lux Z-Chain (ZK) — transparent transfer = the verified X-Chain BaseTx
+  // encoding (lux/zchain.test.ts); shielded notes are a memo extension.
+  luxZ: "ready",
 };

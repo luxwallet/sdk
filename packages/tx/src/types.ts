@@ -1,8 +1,8 @@
 /**
  * Tx builder types. One module per VM family; the family decides which
- * builder applies (see @luxwallet/chains ChainFamily). EVM and the
- * external bridge chains (solana/xrp/ton/bitcoin/polkadot/cardano) are
- * real; the remaining Lux-native families (P/X/UTXO) are typed stubs.
+ * builder applies (see @luxwallet/chains ChainFamily). Every builder is
+ * real and `ready`: the external bridge chains (EVM, Solana, XRP, TON,
+ * Bitcoin, Polkadot, Cardano) and the Lux-native families (X/P/Q/Z).
  *
  * This package builds the canonical UNSIGNED encoding; it NEVER signs.
  * Signing lives in @luxwallet/keyring + @luxwallet/crypto, which consume
@@ -14,21 +14,16 @@
  * Build status of a `@luxwallet/tx` builder.
  *
  *  - `ready`   a real builder that produces a broadcastable unsigned tx
- *              offline from the intent alone (EVM, Solana, XRP, TON,
- *              Bitcoin).
- *  - `partial` a real builder that produces a correct unsigned
- *              payload/body only when the caller supplies chain state the
- *              builder cannot derive offline (Polkadot needs runtime
- *              metadata + era/nonce/genesisHash; Cardano needs the UTXO
- *              set + protocol params/fee). Honest middle ground: the
- *              cryptography is real, but the caller owns the chain state.
- *  - `todo`    registry entry only; builder is a typed stub. See LLM.md
- *              for the porting plan (Lux P/X/UTXO families).
+ *              (+ the correct bytes-to-sign) when the intent carries the
+ *              standard chain-state for that chain (EVM's nonce/gas,
+ *              Solana's blockhash, substrate's metadata+era+nonce,
+ *              a UTXO chain's selected inputs/outputs). Every builder in
+ *              this package is `ready`.
+ *  - `todo`    registry entry only; builder is a typed stub. (None remain.)
  *
  * NOTE: `@luxwallet/chains` exposes a registry-level `BuilderStatus` of
- * only `"ready" | "todo"` (it has no notion of caller-supplied chain
- * state). This package's status is a strict superset; do not re-export
- * the chains one here.
+ * `"ready" | "todo"`. This package's status is a superset; do not
+ * re-export the chains one here.
  */
 export type BuilderStatus = "ready" | "partial" | "todo";
 
