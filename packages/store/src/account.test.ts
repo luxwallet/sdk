@@ -73,6 +73,12 @@ describe("accountFromPrivateKey", () => {
 
     expect(() => accountFromPrivateKey(engine, "0x1234", meta("c"))).toThrow(/32 bytes/);
   });
+
+  it("is always type 'local-hd-pq', ignoring a smuggled meta.type (reference parity)", () => {
+    const smuggled: AccountMeta = { id: "a", label: "Wallet 1", type: "mpc", createdAt: 0 };
+    const { account } = accountFromPrivateKey(engine, toHex(fakeHashSk()), smuggled);
+    expect(account.type).toBe("local-hd-pq");
+  });
 });
 
 /** A concrete 32-byte secret key for the private-key tests. */
