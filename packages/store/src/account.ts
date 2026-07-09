@@ -74,7 +74,9 @@ export function accountFromPrivateKey(
   const account: LuxAccount = {
     id: meta.id,
     label: meta.label,
-    type: meta.type,
+    // A key-only import is intrinsically local-hd-pq — hardcoded (not meta.type)
+    // for reference parity, so an untyped caller cannot smuggle another type.
+    type: "local-hd-pq",
     evmAddress: addressFromPubkey(engine, pub),
     pqPublicKey: "",
     pqNodeId: "",

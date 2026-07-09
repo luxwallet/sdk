@@ -153,4 +153,16 @@ describe("createLuxWallet", () => {
     expect(store.getState().selectedAccountId).toBe(acct.id);
     expect(await store.getState().revealMnemonic(acct.id)).toBeNull();
   });
+
+  it("importPrivateKey stays 'local-hd-pq' even if an untyped caller smuggles a type", async () => {
+    const { store } = makeStore();
+    // Public signature is { label? } only; simulate an untyped JS caller that
+    // passes { type: 'mpc' } at runtime. The key-only type must not budge.
+    const importPk = store.getState().importPrivateKey as unknown as (
+      pk: string,
+      opts?: { label?: string; type?: string },
+    ) => Promise<{ type: string }>;
+    const acct = await importPk("0x" + "07".repeat(32), { type: "mpc" });
+    expect(acct.type).toBe("local-hd-pq");
+  });
 });
