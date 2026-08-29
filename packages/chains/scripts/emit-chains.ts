@@ -3,7 +3,7 @@
  *
  * Native clients (Kotlin/Swift) cannot import the TS registry, so they
  * read this generated JSON. TS stays the single source of truth: this
- * script serializes `CHAINS` verbatim. Run `pnpm chains:emit` after any
+ * script serializes `CHAINS` verbatim. Run `pnpm emit` after any
  * registry edit and commit the result.
  */
 import { writeFileSync } from "node:fs";

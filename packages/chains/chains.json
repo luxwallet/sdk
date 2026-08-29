@@ -212,6 +212,291 @@
       "builderStatus": "ready"
     },
     {
+      "id": "ethereum",
+      "name": "Ethereum",
+      "family": "evm",
+      "evmChainId": 1,
+      "networkId": 1,
+      "mainnet": true,
+      "testnet": false,
+      "rpcRoute": "1",
+      "bip44": {
+        "coinType": 60,
+        "path": "m/44'/60'/0'/0/0"
+      },
+      "nativeAsset": {
+        "symbol": "ETH",
+        "decimals": 18
+      },
+      "builderStatus": "ready"
+    },
+    {
+      "id": "arbitrum",
+      "name": "Arbitrum One",
+      "family": "evm",
+      "evmChainId": 42161,
+      "networkId": 42161,
+      "mainnet": true,
+      "testnet": false,
+      "rpcRoute": "42161",
+      "bip44": {
+        "coinType": 60,
+        "path": "m/44'/60'/0'/0/0"
+      },
+      "nativeAsset": {
+        "symbol": "ETH",
+        "decimals": 18
+      },
+      "builderStatus": "ready"
+    },
+    {
+      "id": "base",
+      "name": "Base",
+      "family": "evm",
+      "evmChainId": 8453,
+      "networkId": 8453,
+      "mainnet": true,
+      "testnet": false,
+      "rpcRoute": "8453",
+      "bip44": {
+        "coinType": 60,
+        "path": "m/44'/60'/0'/0/0"
+      },
+      "nativeAsset": {
+        "symbol": "ETH",
+        "decimals": 18
+      },
+      "builderStatus": "ready"
+    },
+    {
+      "id": "polygon",
+      "name": "Polygon",
+      "family": "evm",
+      "evmChainId": 137,
+      "networkId": 137,
+      "mainnet": true,
+      "testnet": false,
+      "rpcRoute": "137",
+      "bip44": {
+        "coinType": 60,
+        "path": "m/44'/60'/0'/0/0"
+      },
+      "nativeAsset": {
+        "symbol": "POL",
+        "decimals": 18
+      },
+      "builderStatus": "ready"
+    },
+    {
+      "id": "optimism",
+      "name": "Optimism",
+      "family": "evm",
+      "evmChainId": 10,
+      "networkId": 10,
+      "mainnet": true,
+      "testnet": false,
+      "rpcRoute": "10",
+      "bip44": {
+        "coinType": 60,
+        "path": "m/44'/60'/0'/0/0"
+      },
+      "nativeAsset": {
+        "symbol": "ETH",
+        "decimals": 18
+      },
+      "builderStatus": "ready"
+    },
+    {
+      "id": "avalanche",
+      "name": "Avalanche C-Chain",
+      "family": "evm",
+      "evmChainId": 43114,
+      "networkId": 43114,
+      "mainnet": true,
+      "testnet": false,
+      "rpcRoute": "43114",
+      "bip44": {
+        "coinType": 60,
+        "path": "m/44'/60'/0'/0/0"
+      },
+      "nativeAsset": {
+        "symbol": "AVAX",
+        "decimals": 18
+      },
+      "builderStatus": "ready"
+    },
+    {
+      "id": "bnb",
+      "name": "BNB Smart Chain",
+      "family": "evm",
+      "evmChainId": 56,
+      "networkId": 56,
+      "mainnet": true,
+      "testnet": false,
+      "rpcRoute": "56",
+      "bip44": {
+        "coinType": 60,
+        "path": "m/44'/60'/0'/0/0"
+      },
+      "nativeAsset": {
+        "symbol": "BNB",
+        "decimals": 18
+      },
+      "builderStatus": "ready"
+    },
+    {
+      "id": "gnosis",
+      "name": "Gnosis",
+      "family": "evm",
+      "evmChainId": 100,
+      "networkId": 100,
+      "mainnet": true,
+      "testnet": false,
+      "rpcRoute": "100",
+      "bip44": {
+        "coinType": 60,
+        "path": "m/44'/60'/0'/0/0"
+      },
+      "nativeAsset": {
+        "symbol": "XDAI",
+        "decimals": 18
+      },
+      "builderStatus": "ready"
+    },
+    {
+      "id": "celo",
+      "name": "Celo",
+      "family": "evm",
+      "evmChainId": 42220,
+      "networkId": 42220,
+      "mainnet": true,
+      "testnet": false,
+      "rpcRoute": "42220",
+      "bip44": {
+        "coinType": 60,
+        "path": "m/44'/60'/0'/0/0"
+      },
+      "nativeAsset": {
+        "symbol": "CELO",
+        "decimals": 18
+      },
+      "builderStatus": "ready"
+    },
+    {
+      "id": "fantom",
+      "name": "Fantom",
+      "family": "evm",
+      "evmChainId": 250,
+      "networkId": 250,
+      "mainnet": true,
+      "testnet": false,
+      "rpcRoute": "250",
+      "bip44": {
+        "coinType": 60,
+        "path": "m/44'/60'/0'/0/0"
+      },
+      "nativeAsset": {
+        "symbol": "FTM",
+        "decimals": 18
+      },
+      "builderStatus": "ready"
+    },
+    {
+      "id": "linea",
+      "name": "Linea",
+      "family": "evm",
+      "evmChainId": 59144,
+      "networkId": 59144,
+      "mainnet": true,
+      "testnet": false,
+      "rpcRoute": "59144",
+      "bip44": {
+        "coinType": 60,
+        "path": "m/44'/60'/0'/0/0"
+      },
+      "nativeAsset": {
+        "symbol": "ETH",
+        "decimals": 18
+      },
+      "builderStatus": "ready"
+    },
+    {
+      "id": "scroll",
+      "name": "Scroll",
+      "family": "evm",
+      "evmChainId": 534352,
+      "networkId": 534352,
+      "mainnet": true,
+      "testnet": false,
+      "rpcRoute": "534352",
+      "bip44": {
+        "coinType": 60,
+        "path": "m/44'/60'/0'/0/0"
+      },
+      "nativeAsset": {
+        "symbol": "ETH",
+        "decimals": 18
+      },
+      "builderStatus": "ready"
+    },
+    {
+      "id": "zksync",
+      "name": "zkSync Era",
+      "family": "evm",
+      "evmChainId": 324,
+      "networkId": 324,
+      "mainnet": true,
+      "testnet": false,
+      "rpcRoute": "324",
+      "bip44": {
+        "coinType": 60,
+        "path": "m/44'/60'/0'/0/0"
+      },
+      "nativeAsset": {
+        "symbol": "ETH",
+        "decimals": 18
+      },
+      "builderStatus": "ready"
+    },
+    {
+      "id": "mantle",
+      "name": "Mantle",
+      "family": "evm",
+      "evmChainId": 5000,
+      "networkId": 5000,
+      "mainnet": true,
+      "testnet": false,
+      "rpcRoute": "5000",
+      "bip44": {
+        "coinType": 60,
+        "path": "m/44'/60'/0'/0/0"
+      },
+      "nativeAsset": {
+        "symbol": "MNT",
+        "decimals": 18
+      },
+      "builderStatus": "ready"
+    },
+    {
+      "id": "blast",
+      "name": "Blast",
+      "family": "evm",
+      "evmChainId": 81457,
+      "networkId": 81457,
+      "mainnet": true,
+      "testnet": false,
+      "rpcRoute": "81457",
+      "bip44": {
+        "coinType": 60,
+        "path": "m/44'/60'/0'/0/0"
+      },
+      "nativeAsset": {
+        "symbol": "ETH",
+        "decimals": 18
+      },
+      "builderStatus": "ready"
+    },
+    {
       "id": "lux-x-mainnet",
       "name": "Lux X-Chain",
       "family": "utxo",
@@ -280,6 +565,114 @@
       "nativeAsset": {
         "symbol": "LUX",
         "decimals": 18
+      },
+      "builderStatus": "todo"
+    },
+    {
+      "id": "bitcoin",
+      "name": "Bitcoin",
+      "family": "utxo",
+      "networkId": 0,
+      "mainnet": true,
+      "testnet": false,
+      "rpcRoute": "btc",
+      "bip44": {
+        "coinType": 0,
+        "path": "m/84'/0'/0'"
+      },
+      "nativeAsset": {
+        "symbol": "BTC",
+        "decimals": 8
+      },
+      "builderStatus": "todo"
+    },
+    {
+      "id": "solana",
+      "name": "Solana",
+      "family": "solana",
+      "networkId": 0,
+      "mainnet": true,
+      "testnet": false,
+      "rpcRoute": "sol",
+      "bip44": {
+        "coinType": 501,
+        "path": "m/44'/501'/0'"
+      },
+      "nativeAsset": {
+        "symbol": "SOL",
+        "decimals": 9
+      },
+      "builderStatus": "todo"
+    },
+    {
+      "id": "ton",
+      "name": "TON",
+      "family": "ton",
+      "networkId": 0,
+      "mainnet": true,
+      "testnet": false,
+      "rpcRoute": "ton",
+      "bip44": {
+        "coinType": 607,
+        "path": "m/44'/607'/0'"
+      },
+      "nativeAsset": {
+        "symbol": "TON",
+        "decimals": 9
+      },
+      "builderStatus": "todo"
+    },
+    {
+      "id": "xrp",
+      "name": "XRP Ledger",
+      "family": "xrp",
+      "networkId": 0,
+      "mainnet": true,
+      "testnet": false,
+      "rpcRoute": "xrp",
+      "bip44": {
+        "coinType": 144,
+        "path": "m/44'/144'/0'"
+      },
+      "nativeAsset": {
+        "symbol": "XRP",
+        "decimals": 6
+      },
+      "builderStatus": "todo"
+    },
+    {
+      "id": "polkadot",
+      "name": "Polkadot",
+      "family": "substrate",
+      "networkId": 0,
+      "mainnet": true,
+      "testnet": false,
+      "rpcRoute": "dot",
+      "bip44": {
+        "coinType": 354,
+        "path": "m/44'/354'/0'"
+      },
+      "nativeAsset": {
+        "symbol": "DOT",
+        "decimals": 10
+      },
+      "builderStatus": "todo"
+    },
+    {
+      "id": "cardano",
+      "name": "Cardano",
+      "family": "cardano",
+      "networkId": 0,
+      "mainnet": true,
+      "testnet": false,
+      "rpcRoute": "ada",
+      "bip44": {
+        "coinType": 1815,
+        "path": "m/1852'/1815'/0'"
+      },
+      "nativeAsset": {
+        "symbol": "ADA",
+        "decimals": 6
       },
       "builderStatus": "todo"
     }
