@@ -4,3 +4,8 @@ dist/
 .DS_Store
 coverage/
 *.log
+
+# Local symlinks to LLM.md
+CLAUDE.md
+AGENTS.md
+GEMINI.md
